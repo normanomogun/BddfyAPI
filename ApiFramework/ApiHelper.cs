@@ -1,6 +1,8 @@
-﻿using RestSharp;
+﻿using System;
+using RestSharp;
 using System.Configuration;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace ApiFramework
 {
@@ -42,6 +44,16 @@ namespace ApiFramework
         public T DeserializeJsonObject<T>(string response) where T : BaseClass, new()
         {
             return JsonConvert.DeserializeObject<T>(response);
+        }
+
+        private IConfiguration GetConfig()
+        {
+            var filePath = AppContext.BaseDirectory;
+
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("configuration.json")
+                .Build();
+            return builder;
         }
     }
 }
